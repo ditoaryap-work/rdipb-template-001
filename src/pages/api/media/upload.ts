@@ -1,7 +1,6 @@
 
 import type { APIRoute } from 'astro';
-import fs from 'node:fs';
-import path from 'node:path';
+import { supabase } from '../../../lib/supabase';
 
 export const POST: APIRoute = async ({ request }) => {
     try {
@@ -11,6 +10,8 @@ export const POST: APIRoute = async ({ request }) => {
         if (!file) {
             return new Response(JSON.stringify({ error: 'No file uploaded' }), { status: 400 });
         }
+
+        const clientId = import.meta.env.PUBLIC_CLIENT_ID || 'template-001';
 
         // Validation: Check File Type
         const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'];
@@ -24,29 +25,32 @@ export const POST: APIRoute = async ({ request }) => {
             return new Response(JSON.stringify({ error: 'File too large. Max 2MB.' }), { status: 400 });
         }
 
-        // Create Directory Structure: public/uploads/YYYY/MM
-        const date = new Date();
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const uploadDir = path.join(process.cwd(), 'public', 'uploads', String(year), month);
-
-        if (!fs.existsSync(uploadDir)) {
-            fs.mkdirSync(uploadDir, { recursive: true });
-        }
-
-        // Generate Safe Filename (timestamp-originalName)
+        // Generate Path: [site-id]/[timestamp]-[safe-name]
         const timestamp = Date.now();
         const safeName = file.name.replace(/[^a-z0-9.]/gi, '_').toLowerCase();
-        const filename = `${timestamp}-${safeName}`;
-        const filePath = path.join(uploadDir, filename);
+        const filePath = `${clientId}/${timestamp}-${safeName}`;
 
-        // Write File
+        // Convert File to ArrayBuffer for Supabase Upload
         const arrayBuffer = await file.arrayBuffer();
-        const buffer = Buffer.from(arrayBuffer);
-        fs.writeFileSync(filePath, buffer);
+        const fileData = new Uint8Array(arrayBuffer);
 
-        // Return Public URL
-        const publicUrl = `/uploads/${year}/${month}/${filename}`;
+        // Upload to Supabase Storage
+        const { data, error } = await supabase.storage
+            .from('images')
+            .upload(filePath, fileData, {
+                contentType: file.type,
+                upsert: true
+            });
+
+        if (error) {
+            console.error('Supabase Storage Error:', error);
+            throw error;
+        }
+
+        // Get Public URL
+        const { data: { publicUrl } } = supabase.storage
+            .from('images')
+            .getPublicUrl(filePath);
 
         return new Response(JSON.stringify({
             success: true,
@@ -57,8 +61,13 @@ export const POST: APIRoute = async ({ request }) => {
             headers: { 'Content-Type': 'application/json' }
         });
 
-    } catch (error) {
+    } catch (error: any) {
         console.error('Upload error:', error);
-        return new Response(JSON.stringify({ error: 'Server upload failed' }), { status: 500 });
+        return new Response(JSON.stringify({
+            error: error.message || 'Server upload failed'
+        }), {
+            status: 500,
+            headers: { 'Content-Type': 'application/json' }
+        });
     }
 };

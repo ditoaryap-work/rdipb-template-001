@@ -34,6 +34,6 @@ export default defineConfig({
   // Image optimization
   image: {
     // Use Vercel's image optimization
-    domains: ['res.cloudinary.com'],
+    domains: ['res.cloudinary.com', 'gifwvnpnhcgglaydwlij.supabase.co'],
   },
 });
