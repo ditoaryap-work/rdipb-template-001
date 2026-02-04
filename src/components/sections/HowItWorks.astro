@@ -1,0 +1,130 @@
+---
+// How It Works - Numbered Steps with GSAP Animations
+---
+
+<section id="how-it-works" class="py-24 bg-surface max-w-7xl mx-auto px-4 overflow-hidden">
+  <div class="text-center mb-16 relative">
+    <span class="text-primary font-bold text-sm tracking-widest uppercase mb-2 block animate-on-scroll">Langkah Mudah</span>
+    <h2 class="section-title animate-on-scroll">Proses Kepemilikan Rumah</h2>
+    <p class="section-subtitle animate-on-scroll">
+      Wujudkan hunian impian Anda melalui 4 langkah transparan dan bebas ribet.
+    </p>
+  </div>
+
+  <div class="relative">
+    <!-- Connecting Line (Desktop) -->
+    <div class="hidden md:block absolute top-12 left-0 w-full h-0.5 bg-gray-100 z-0">
+      <div id="progress-line" class="absolute top-0 left-0 h-full bg-primary w-0 transition-all duration-1000 ease-out"></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
+      <!-- Step 1 -->
+      <div class="step-card group relative">
+        <div class="flex flex-col items-center text-center">
+          <div class="w-24 h-24 bg-white rounded-full border-4 border-gray-100 flex items-center justify-center mb-6 shadow-sm group-hover:border-primary/30 group-hover:shadow-lg group-hover:scale-110 transition-all duration-300 relative bg-surface">
+            <span class="absolute -top-2 -right-2 w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center font-bold text-sm shadow-md">1</span>
+            <svg class="w-10 h-10 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+          </div>
+          <h3 class="font-display font-bold text-xl text-gray-900 mb-2">Konsultasi</h3>
+          <p class="text-sm text-gray-500 leading-relaxed">
+            Diskusikan kebutuhan, budget, dan preferensi unit Anda dengan tim ahli kami secara gratis.
+          </p>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="step-card group relative">
+        <div class="flex flex-col items-center text-center">
+          <div class="w-24 h-24 bg-white rounded-full border-4 border-gray-100 flex items-center justify-center mb-6 shadow-sm group-hover:border-primary/30 group-hover:shadow-lg group-hover:scale-110 transition-all duration-300 relative bg-surface">
+            <span class="absolute -top-2 -right-2 w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center font-bold text-sm shadow-md">2</span>
+            <svg class="w-10 h-10 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+          </div>
+          <h3 class="font-display font-bold text-xl text-gray-900 mb-2">Survey Lokasi</h3>
+          <p class="text-sm text-gray-500 leading-relaxed">
+            Kunjungi show unit kami untuk merasakan langsung kualitas bangunan dan suasana lingkungan.
+          </p>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step-card group relative">
+        <div class="flex flex-col items-center text-center">
+          <div class="w-24 h-24 bg-white rounded-full border-4 border-gray-100 flex items-center justify-center mb-6 shadow-sm group-hover:border-primary/30 group-hover:shadow-lg group-hover:scale-110 transition-all duration-300 relative bg-surface">
+            <span class="absolute -top-2 -right-2 w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center font-bold text-sm shadow-md">3</span>
+            <svg class="w-10 h-10 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <h3 class="font-display font-bold text-xl text-gray-900 mb-2">Booking & Akad</h3>
+          <p class="text-sm text-gray-500 leading-relaxed">
+            Pilih unit favorit, lakukan booking fee, dan proses berkas KPR atau cash bertahap dibantu tim admin.
+          </p>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="step-card group relative">
+        <div class="flex flex-col items-center text-center">
+          <div class="w-24 h-24 bg-white rounded-full border-4 border-gray-100 flex items-center justify-center mb-6 shadow-sm group-hover:border-primary/30 group-hover:shadow-lg group-hover:scale-110 transition-all duration-300 relative bg-surface">
+            <span class="absolute -top-2 -right-2 w-8 h-8 bg-accent text-white rounded-full flex items-center justify-center font-bold text-sm shadow-md">4</span>
+            <svg class="w-10 h-10 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+            </svg>
+          </div>
+          <h3 class="font-display font-bold text-xl text-gray-900 mb-2">Serah Terima</h3>
+          <p class="text-sm text-gray-500 leading-relaxed">
+            Unit siap huni diserahkan lengkap dengan kunci dan dokumen legalitas resmi. Selamat datang di rumah baru!
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Animate Section Header
+  gsap.utils.toArray('.animate-on-scroll').forEach((elem: any, i) => {
+    gsap.from(elem, {
+      scrollTrigger: {
+        trigger: elem,
+        start: 'top 80%',
+      },
+      y: 30,
+      opacity: 0,
+      duration: 0.8,
+      delay: i * 0.1,
+      ease: 'power3.out'
+    });
+  });
+
+  // Animate Steps
+  gsap.from('.step-card', {
+    scrollTrigger: {
+      trigger: '.step-card',
+      start: 'top 75%',
+    },
+    y: 50,
+    opacity: 0,
+    duration: 0.8,
+    stagger: 0.2,
+    ease: 'back.out(1.7)',
+    onComplete: () => {
+      // Animate progress line after steps appear
+      gsap.to('#progress-line', {
+        width: '100%',
+        duration: 1.5,
+        ease: 'power2.inOut'
+      });
+    }
+  });
+</script>

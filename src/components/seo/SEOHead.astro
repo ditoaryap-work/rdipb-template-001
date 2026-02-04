@@ -1,0 +1,78 @@
+---
+import { siteConfig } from '../../config/site.config';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  article?: boolean;
+}
+
+const { 
+  title = siteConfig.title, 
+  description = siteConfig.description,
+  image = siteConfig.seo.ogImage,
+  article = false,
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const socialImageURL = new URL(image, Astro.url);
+const siteTitle = title === siteConfig.title ? title : `${title} | ${siteConfig.title}`;
+---
+
+<!-- Global Metadata -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<meta name="generator" content={Astro.generator} />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+<!-- Canonical URL -->
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Primary Meta Tags -->
+<title>{siteTitle}</title>
+<meta name="title" content={siteTitle} />
+<meta name="description" content={description} />
+<meta name="author" content={siteConfig.author} />
+<meta name="robots" content="index, follow" />
+<meta name="theme-color" content={siteConfig.theme.colors.background} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={article ? 'article' : 'website'} />
+<meta property="og:url" content={Astro.url} />
+<meta property="og:title" content={siteTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={socialImageURL} />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={Astro.url} />
+<meta property="twitter:title" content={siteTitle} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={socialImageURL} />
+<meta property="twitter:creator" content={siteConfig.seo.twitterHandle} />
+
+<!-- Structured Data (JSON-LD) -->
+<script type="application/ld+json" is:inline set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "RealEstateListing",
+  "name": siteTitle,
+  "description": description,
+  "url": Astro.url,
+  "image": socialImageURL,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": siteConfig.contact.address
+  },
+  "offers": {
+    "@type": "Offer",
+    "availability": "https://schema.org/InStock",
+    "priceCurrency": "IDR"
+  }
+})} />
+
+<!-- Sitemap -->
+<link rel="sitemap" href="/sitemap-index.xml" />

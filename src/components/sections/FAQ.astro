@@ -1,0 +1,96 @@
+---
+import { getContent, getCollection } from '../../lib/content';
+
+// Dynamic Header
+const sectionData = getContent('sections/faq') || {
+  sectionTitle: "Pertanyaan Umum",
+  sectionSubtitle: "Jawaban untuk pertanyaan yang sering diajukan oleh calon pembeli."
+};
+
+interface FAQ {
+  question: string;
+  answer: string;
+}
+
+const rawFaqs = getCollection<FAQ>('faqs');
+const faqs = rawFaqs.map(data => ({
+  question: data.question ? data.question.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) : 'Question',
+  answer: data.answer || ''
+}));
+---
+
+<section class="py-24 max-w-4xl mx-auto px-4" id="faq">
+  <div class="text-center mb-12">
+    <h2 class="font-display text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+      {sectionData.sectionTitle}
+    </h2>
+    <p class="text-gray-500">
+      {sectionData.sectionSubtitle}
+    </p>
+  </div>
+
+  <div class="space-y-4">
+    {faqs.length > 0 ? (
+      faqs.map((faq) => (
+        <div class="faq-item group bg-white border border-gray-100 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-md">
+          <button class="faq-toggle w-full flex justify-between items-center p-6 text-left font-medium text-lg text-gray-900 focus:outline-none">
+            <span>{faq.question}</span>
+            <span class="icon-wrap transition-transform duration-300">
+              <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </span>
+          </button>
+          <div class="faq-content grid grid-rows-[0fr] transition-all duration-300 ease-out">
+            <div class="overflow-hidden">
+              <div class="p-6 pt-0 text-gray-500 leading-relaxed">
+                {faq.answer}
+              </div>
+            </div>
+          </div>
+        </div>
+      ))
+    ) : (
+      <p class="text-center text-gray-400">Belum ada FAQ. Tambahkan melalui Admin Panel.</p>
+    )}
+  </div>
+    
+  <div class="text-center mt-10">
+    <a 
+      href="#contact" 
+      class="inline-flex items-center gap-2 text-primary font-bold hover:underline underline-offset-4"
+    >
+      Ada pertanyaan lain? Chat Kami
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+    </a>
+  </div>
+</section>
+
+<style>
+  .faq-item.active .faq-content {
+    grid-template-rows: 1fr;
+  }
+  .faq-item.active .icon-wrap {
+    transform: rotate(180deg);
+  }
+</style>
+
+<script>
+  const toggles = document.querySelectorAll('.faq-toggle');
+
+  toggles.forEach(toggle => {
+    toggle.addEventListener('click', () => {
+      const parent = toggle.parentElement;
+      
+      // Close all others
+      document.querySelectorAll('.faq-item').forEach(item => {
+        if (item !== parent) {
+          item.classList.remove('active');
+        }
+      });
+
+      // Toggle current
+      parent?.classList.toggle('active');
+    });
+  });
+</script>

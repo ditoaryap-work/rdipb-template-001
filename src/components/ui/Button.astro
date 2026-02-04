@@ -1,0 +1,53 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'a'>, HTMLAttributes<'button'> {
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+  size?: 'sm' | 'md' | 'lg';
+  href?: string;
+  class?: string;
+  isExternal?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+}
+
+const { 
+  variant = 'primary', 
+  size = 'md', 
+  href, 
+  class: className,
+  isExternal = false,
+  type = 'button',
+  ...props 
+} = Astro.props;
+
+const baseStyles = "inline-flex items-center justify-center font-medium transition-all duration-300 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer";
+
+const variants = {
+  primary: "bg-gray-900 text-white hover:bg-gray-700 focus:ring-gray-900 shadow-sm",
+  secondary: "bg-gray-600 text-white hover:bg-gray-500 focus:ring-gray-600 shadow-sm",
+  outline: "bg-transparent border-2 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white focus:ring-gray-900",
+  ghost: "bg-transparent text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:ring-gray-500",
+};
+
+const sizes = {
+  sm: "px-6 py-2 text-sm",
+  md: "px-8 py-3 text-base",
+  lg: "px-10 py-4 text-lg",
+};
+
+const Element = href ? 'a' : 'button';
+const computedClass = `${baseStyles} ${variants[variant]} ${sizes[size]} ${className || ''}`;
+
+const externalProps = isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {};
+const buttonProps = !href ? { type } : {};
+---
+
+<Element 
+  href={href} 
+  class={computedClass}
+  {...externalProps}
+  {...buttonProps}
+  {...props}
+>
+  <slot />
+</Element>

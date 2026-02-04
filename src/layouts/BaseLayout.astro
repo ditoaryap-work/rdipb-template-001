@@ -1,0 +1,54 @@
+---
+import { siteConfig } from '../config/site.config';
+import '../styles/global.css';
+import SEOHead from '../components/seo/SEOHead.astro';
+import Navbar from '../components/common/Navbar.astro';
+import Footer from '../components/common/Footer.astro';
+import FloatingWhatsApp from '../components/common/FloatingWhatsApp.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <SEOHead title={title} description={description} />
+    
+    <Navbar />
+    <main class="flex-grow">
+      <slot />
+    </main>
+    <Footer />
+    <FloatingWhatsApp />
+    
+    <script>
+      import { trackPageView } from '../lib/analytics';
+      
+      // Force Scroll to Top on Load (Robust Fix)
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+      }
+      
+      // Double tap: Immediate and delayed to beat race conditions
+      window.scrollTo(0, 0);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+      }, 100);
+      
+      // Track Page View on Load
+      trackPageView();
+      
+      // Optional: Add listeners for future View Transitions support
+      // document.addEventListener('astro:page-load', trackPageView);
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  /* Additional global styles if needed */
+</style>

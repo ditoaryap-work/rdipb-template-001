@@ -1,5 +1,5 @@
 {
-  "name": "template-001",
+  "name": "rdipb-template-001",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -9,6 +9,25 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.17.1"
+    "@astrojs/node": "^9.5.2",
+    "@astrojs/react": "^4.4.2",
+    "@astrojs/sitemap": "^3.7.0",
+    "@astrojs/vercel": "^9.0.4",
+    "@supabase/supabase-js": "^2.94.0",
+    "@tailwindcss/vite": "^4.1.18",
+    "astro": "^5.17.1",
+    "cookie": "^1.1.1",
+    "dotenv": "^17.2.3",
+    "gsap": "^3.14.2",
+    "js-yaml": "^4.1.1",
+    "nodemailer": "^7.0.13",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "swiper": "^12.1.0",
+    "tailwindcss": "^4.1.18"
+  },
+  "devDependencies": {
+    "@types/cookie": "^0.6.0",
+    "@types/js-yaml": "^4.0.9"
   }
 }

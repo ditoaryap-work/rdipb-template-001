@@ -1,0 +1,98 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import fs from 'node:fs';
+import path from 'node:path';
+import yaml from 'js-yaml';
+
+const { folder } = Astro.params;
+
+// Handle POST Request (Form Submission)
+if (Astro.request.method === 'POST') {
+  try {
+     const formData = await Astro.request.formData();
+     const filename = formData.get('filename')?.toString().toLowerCase().replace(/[^a-z0-9-]/g, '-');
+     
+     if (!filename) throw new Error('Filename required');
+
+     const contentDir = path.join(process.cwd(), `content/${folder}`);
+     const filePath = path.join(contentDir, `${filename}.yaml`);
+
+     if (fs.existsSync(filePath)) {
+        throw new Error('File dengan nama ini sudah ada.');
+     }
+
+     // Default Templates based on folder
+     let initialData: any = { title: 'Judul Baru', created_at: new Date().toISOString() };
+     
+     if (folder === 'units') {
+        initialData = {
+           name: 'Tipe Baru',
+           price: 'Rp 0',
+           specs: { lt: 60, lb: 36, kt: 2, km: 1 },
+           features: ['Carport', 'Taman'],
+           images: []
+        };
+     } else if (folder === 'faqs') {
+        initialData = {
+           question: 'Pertanyaan Baru?',
+           answer: 'Jawaban...'
+        };
+     } else if (folder === 'testimonials') {
+        initialData = {
+           name: 'Nama Klien',
+           role: 'Pekerjaan',
+           content: 'Isi testimoni...',
+           avatar: ''
+        };
+     }
+
+     if (!fs.existsSync(contentDir)) fs.mkdirSync(contentDir, { recursive: true });
+     fs.writeFileSync(filePath, yaml.dump(initialData));
+
+     return Astro.redirect(`/admin/edit/${folder}/${filename}`);
+
+  } catch (error: any) {
+     console.error(error);
+     // In a real app, we'd pass error via flash session or query param
+  }
+}
+---
+
+<AdminLayout title={`Buat ${folder} Baru`}>
+  <div class="max-w-xl mx-auto mt-10">
+     <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+        <h1 class="text-2xl font-bold text-gray-900 mb-6 font-display capitalize">Buat Item {folder}</h1>
+        
+        <form method="POST" class="space-y-6">
+           <div>
+              <label for="filename" class="block text-sm font-medium text-gray-700 mb-2">
+                 Nama File (Slug)
+              </label>
+              <div class="mt-1 relative rounded-md shadow-sm">
+                 <input 
+                    type="text" 
+                    name="filename" 
+                    id="filename" 
+                    required
+                    class="focus:ring-primary focus:border-primary block w-full pr-12 sm:text-sm border-gray-300 rounded-xl p-3" 
+                    placeholder="contoh-nama-item"
+                 >
+                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                    <span class="text-gray-500 sm:text-sm">.yaml</span>
+                 </div>
+              </div>
+              <p class="mt-2 text-xs text-gray-500">Gunakan huruf kecil dan tanda strip (-). Contoh: <code>tipe-45-b</code></p>
+           </div>
+
+           <div class="flex gap-4 pt-4">
+              <a href={`/admin/collection/${folder}`} class="flex-1 py-3 px-4 border border-gray-300 rounded-xl text-center text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+                 Batal
+              </a>
+              <button type="submit" class="flex-1 py-3 px-4 border border-transparent rounded-xl text-center text-sm font-medium text-white bg-primary hover:bg-primary/90 shadow-lg shadow-primary/30 transition-all">
+                 Buat & Edit
+              </button>
+           </div>
+        </form>
+     </div>
+  </div>
+</AdminLayout>

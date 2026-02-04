@@ -1,0 +1,187 @@
+---
+// Simple KPR Calculator
+---
+
+<section id="kpr-calculator" class="py-24 bg-gray-50">
+  <div class="container-custom">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <!-- Calculator Form -->
+      <div>
+        <span class="text-primary font-bold text-sm tracking-widest uppercase mb-2 block">Simulasi KPR</span>
+        <h2 class="section-title">Hitung Cicilan Rumah Anda</h2>
+        <p class="section-subtitle !mx-0 mb-8">
+          Estimasikan cicilan bulanan Anda dengan mudah. Gunakan kalkulator ini untuk perencanaan keuangan yang lebih baik.
+        </p>
+
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+          <!-- House Price -->
+          <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Harga Rumah (Rp)</label>
+            <div class="relative">
+              <span class="absolute left-4 top-3.5 text-gray-500">Rp</span>
+              <input 
+                type="text" 
+                id="price" 
+                inputmode="numeric"
+                class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary focus:border-transparent font-medium"
+                placeholder="500.000.000"
+                value="500.000.000"
+              />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 mb-6">
+            <!-- Down Payment -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Uang Muka (%)</label>
+              <input 
+                type="number" 
+                id="dp-percent" 
+                inputmode="decimal"
+                class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary focus:border-transparent font-medium"
+                placeholder="20"
+                value="20"
+              />
+            </div>
+            <!-- Years -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Tenor (Tahun)</label>
+              <select id="tenor" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary focus:border-transparent font-medium bg-white">
+                <option value="5">5 Tahun</option>
+                <option value="10">10 Tahun</option>
+                <option value="15" selected>15 Tahun</option>
+                <option value="20">20 Tahun</option>
+                <option value="25">25 Tahun</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Interest Rate -->
+          <div class="mb-8">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Bunga per Tahun (%)</label>
+            <input 
+              type="number" 
+              id="interest" 
+              inputmode="decimal"
+              class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary focus:border-transparent font-medium"
+              placeholder="8.5"
+              value="8.5"
+              step="0.1"
+            />
+            <p class="text-xs text-gray-400 mt-1">*Suku bunga floating rata-rata saat ini</p>
+          </div>
+
+          <button id="calculate" class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/25 transition active:scale-[0.98]">
+            Hitung Cicilan
+          </button>
+        </div>
+      </div>
+
+      <!-- Result Card -->
+      <div class="relative">
+        <div class="bg-gray-900 rounded-[2.5rem] p-8 lg:p-12 text-white relative z-10 overflow-hidden">
+          <div class="relative z-10">
+            <h3 class="text-gray-400 font-medium mb-8">Estimasi Cicilan Per Bulan</h3>
+            
+            <div class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-2 tracking-tight flex items-baseline flex-wrap gap-x-2">
+              <span class="text-xl sm:text-2xl lg:text-3xl text-gray-500 font-sans">Rp</span>
+              <span id="monthly-result">0</span>
+            </div>
+            <p class="text-gray-400 text-sm mb-12">
+              *Perhitungan ini adalah estimasi. Nilai sebenarnya dapat berbeda tergantung kebijakan bank.
+            </p>
+
+            <div class="space-y-4 border-t border-gray-800 pt-8">
+              <div class="flex justify-between items-center">
+                <span class="text-gray-400">Total Pinjaman</span>
+                <span id="loan-amount" class="font-bold text-lg">Rp 0</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-gray-400">Total Uang Muka</span>
+                <span id="dp-amount" class="font-bold text-lg text-emerald-400">Rp 0</span>
+              </div>
+            </div>
+
+            <div class="mt-10">
+              <a href="#contact" class="inline-flex items-center justify-center w-full bg-white text-gray-900 font-bold py-3.5 rounded-xl hover:bg-gray-100 transition">
+                Konsultasikan KPR Sekarang
+              </a>
+            </div>
+          </div>
+
+          <!-- Decor -->
+          <div class="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+          <div class="absolute bottom-0 left-0 w-64 h-64 bg-accent/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function formatCurrency(num: number) {
+    return new Intl.NumberFormat('id-ID').format(Math.round(num));
+  }
+
+  function parseCurrency(str: string) {
+    return parseInt(str.replace(/\./g, '').replace(/,/g, '')) || 0;
+  }
+
+  const priceInput = document.getElementById('price') as HTMLInputElement;
+  const dpPercentInput = document.getElementById('dp-percent') as HTMLInputElement;
+  const tenorInput = document.getElementById('tenor') as HTMLSelectElement;
+  const interestInput = document.getElementById('interest') as HTMLInputElement;
+  
+  const resultDisplay = document.getElementById('monthly-result');
+  const loanDisplay = document.getElementById('loan-amount');
+  const dpDisplay = document.getElementById('dp-amount');
+
+  // Input Masking for Price
+  priceInput?.addEventListener('input', (e) => {
+    let value = (e.target as HTMLInputElement).value;
+    // Remove non-digits
+    value = value.replace(/\D/g, '');
+    if (value) {
+      // Add thousands separator
+      (e.target as HTMLInputElement).value = new Intl.NumberFormat('id-ID').format(parseInt(value));
+    }
+  });
+
+  function calculateKPR() {
+    if (!priceInput || !dpPercentInput || !tenorInput || !interestInput) return;
+
+    const price = parseCurrency(priceInput.value);
+    const dpPercent = parseFloat(dpPercentInput.value);
+    const years = parseInt(tenorInput.value);
+    const annualInterest = parseFloat(interestInput.value);
+
+    // Calculations
+    const dpAmount = price * (dpPercent / 100);
+    const loanAmount = price - dpAmount;
+    const monthlyRate = annualInterest / 100 / 12;
+    const totalMonths = years * 12;
+
+    // Monthly Payment Formula (PMT)
+    const monthlyPayment = (loanAmount * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -totalMonths));
+
+    // Update UI
+    if (resultDisplay) resultDisplay.innerText = formatCurrency(monthlyPayment);
+    if (loanDisplay) loanDisplay.innerText = "Rp " + formatCurrency(loanAmount);
+    if (dpDisplay) dpDisplay.innerText = "Rp " + formatCurrency(dpAmount);
+  }
+
+  document.getElementById('calculate')?.addEventListener('click', calculateKPR);
+  
+  // Initial calculation
+  calculateKPR();
+
+  // Recalculate on Enter key in inputs
+  const inputs = [priceInput, dpPercentInput, interestInput];
+  inputs.forEach(input => {
+    input?.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') calculateKPR();
+    });
+  });
+
+  tenorInput?.addEventListener('change', calculateKPR);
+</script>

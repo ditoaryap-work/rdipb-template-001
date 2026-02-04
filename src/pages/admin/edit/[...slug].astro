@@ -1,0 +1,21 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import ContentEditor from '../../../components/admin/ContentEditor';
+
+const { slug } = Astro.params;
+
+// Handle edge case where slug is undefined
+if (!slug) {
+  return Astro.redirect('/admin');
+}
+
+// Convert slug 'sections/hero' -> "Edit Hero Section"
+const titleParts = slug.split('/');
+const title = titleParts[titleParts.length - 1]
+  .replace(/-/g, ' ')
+  .replace(/\b\w/g, c => c.toUpperCase());
+---
+
+<AdminLayout title={`Edit ${title}`}>
+  <ContentEditor client:load apiPath={slug} title={`Edit ${title}`} />
+</AdminLayout>

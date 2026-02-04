@@ -1,0 +1,153 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+const currentPath = Astro.url.pathname;
+
+const isActive = (path: string) => currentPath === path || currentPath.startsWith(path + '/');
+const isExactActive = (path: string) => currentPath === path;
+---
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title} - Admin</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    /* Custom Scrollbar for sidebar */
+    .sidebar-scroll::-webkit-scrollbar { width: 4px; }
+    .sidebar-scroll::-webkit-scrollbar-track { background: transparent; }
+    .sidebar-scroll::-webkit-scrollbar-thumb { background-color: #e5e7eb; border-radius: 20px; }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+  
+  <div class="flex h-screen overflow-hidden">
+    
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white border-r border-gray-200 flex flex-col shrink-0 transition-all duration-300">
+      
+      <!-- Logo -->
+      <div class="h-16 flex items-center px-6 border-b border-gray-100">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-gray-900 flex items-center justify-center text-white">
+             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+          </div>
+          <span class="text-lg font-bold text-gray-900 tracking-tight">Admin<span class="text-blue-600">Panel</span></span>
+        </div>
+      </div>
+      
+      <!-- Navigation -->
+      <nav class="flex-1 overflow-y-auto p-4 sidebar-scroll space-y-1">
+        
+        <!-- Dashboard -->
+        <a 
+          href="/admin" 
+          class:list={[
+            "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 group",
+            isExactActive('/admin') 
+              ? "bg-gray-900 text-white shadow-md shadow-gray-200" 
+              : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+          ]}
+        >
+          <svg class:list={["w-5 h-5 transition-colors", isExactActive('/admin') ? "text-white" : "text-gray-400 group-hover:text-gray-600"]} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+          Dashboard
+        </a>
+
+        <!-- Divider -->
+        <div class="h-px bg-gray-100 my-4 mx-2"></div>
+
+        <!-- Halaman -->
+        <div class="px-3 mb-2 mt-4">
+          <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Halaman Utama</span>
+        </div>
+
+        <a href="/admin/edit/sections/hero" class:list={["flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors group", isActive('/admin/edit/sections/hero') ? "bg-blue-50 text-blue-700" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"]}>
+          <svg class:list={["w-5 h-5 transition-colors", isActive('/admin/edit/sections/hero') ? "text-blue-600" : "text-gray-400 group-hover:text-gray-600"]} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          Hero Banner
+        </a>
+        <a href="/admin/edit/sections/benefits" class:list={["flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors group", isActive('/admin/edit/sections/benefits') ? "bg-blue-50 text-blue-700" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"]}>
+          <svg class:list={["w-5 h-5 transition-colors", isActive('/admin/edit/sections/benefits') ? "text-blue-600" : "text-gray-400 group-hover:text-gray-600"]} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+          Keuntungan
+        </a>
+        <a href="/admin/edit/sections/location" class:list={["flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors group", isActive('/admin/edit/sections/location') ? "bg-blue-50 text-blue-700" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"]}>
+          <svg class:list={["w-5 h-5 transition-colors", isActive('/admin/edit/sections/location') ? "text-blue-600" : "text-gray-400 group-hover:text-gray-600"]} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          Lokasi
+        </a>
+
+        <!-- Konten -->
+        <div class="px-3 mb-2 mt-6">
+          <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Database Konten</span>
+        </div>
+
+        <a href="/admin/collection/units" class:list={["flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors group", isActive('/admin/collection/units') ? "bg-blue-50 text-blue-700" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"]}>
+          <svg class:list={["w-5 h-5 transition-colors", isActive('/admin/collection/units') ? "text-blue-600" : "text-gray-400 group-hover:text-gray-600"]} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+          Unit Rumah
+        </a>
+        <a href="/admin/collection/testimonials" class:list={["flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors group", isActive('/admin/collection/testimonials') ? "bg-blue-50 text-blue-700" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"]}>
+          <svg class:list={["w-5 h-5 transition-colors", isActive('/admin/collection/testimonials') ? "text-blue-600" : "text-gray-400 group-hover:text-gray-600"]} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+          Testimoni
+        </a>
+        <a href="/admin/collection/faqs" class:list={["flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors group", isActive('/admin/collection/faqs') ? "bg-blue-50 text-blue-700" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"]}>
+          <svg class:list={["w-5 h-5 transition-colors", isActive('/admin/collection/faqs') ? "text-blue-600" : "text-gray-400 group-hover:text-gray-600"]} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          FAQ
+        </a>
+
+        <!-- Sistem -->
+        <div class="px-3 mb-2 mt-6">
+          <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Sistem Admin</span>
+        </div>
+
+        <a href="/admin/edit/settings/site" class:list={["flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors group", isActive('/admin/edit/settings/site') ? "bg-blue-50 text-blue-700" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"]}>
+          <svg class:list={["w-5 h-5 transition-colors", isActive('/admin/edit/settings/site') ? "text-blue-600" : "text-gray-400 group-hover:text-gray-600"]} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          Pengaturan
+        </a>
+        <a href="/admin/settings/password" class:list={["flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors group", isActive('/admin/settings/password') ? "bg-blue-50 text-blue-700" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"]}>
+          <svg class:list={["w-5 h-5 transition-colors", isActive('/admin/settings/password') ? "text-blue-600" : "text-gray-400 group-hover:text-gray-600"]} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          Ubah Password
+        </a>
+
+      </nav>
+
+      <!-- Footer -->
+      <div class="p-4 border-t border-gray-100 bg-gray-50/50">
+        <button id="logoutBtn" class="flex items-center gap-3 w-full px-3 py-2.5 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all group">
+          <svg class="w-5 h-5 transition-colors text-gray-400 group-hover:text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+          Keluar
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 overflow-y-auto bg-gray-50/30">
+      <div class="max-w-5xl mx-auto p-6 md:p-8">
+        <slot />
+      </div>
+    </main>
+    
+  </div>
+
+<script>
+  document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+      window.location.href = '/login';
+    } catch (e) {
+      console.error('Logout failed', e);
+      window.location.href = '/login';
+    }
+  });
+</script>
+
+</body>
+</html>

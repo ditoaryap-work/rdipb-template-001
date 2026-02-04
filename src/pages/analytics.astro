@@ -1,0 +1,94 @@
+---
+// Analytics Info Page - Shows how clients can view their website stats
+// Note: Actual analytics data comes from Supabase (already integrated)
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout>
+  <main class="min-h-screen bg-gray-50 py-20 px-4">
+    <div class="max-w-4xl mx-auto">
+      
+      <!-- Header -->
+      <div class="text-center mb-12">
+        <div class="inline-flex items-center gap-2 bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-medium mb-4">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          Statistik Website
+        </div>
+        <h1 class="font-display text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          Pantau Performa Website Anda
+        </h1>
+        <p class="text-gray-500 max-w-lg mx-auto">
+          Lihat berapa banyak pengunjung, halaman populer, dan aktivitas pengguna di website Anda.
+        </p>
+      </div>
+
+      <!-- Stats Cards (Placeholder - will be populated by Supabase) -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-gray-400 text-sm">Total Pengunjung</span>
+            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+            </div>
+          </div>
+          <p class="text-3xl font-bold text-gray-900" id="total-visitors">—</p>
+          <p class="text-xs text-gray-400 mt-1">Sejak website aktif</p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-gray-400 text-sm">Klik WhatsApp</span>
+            <div class="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
+            </div>
+          </div>
+          <p class="text-3xl font-bold text-gray-900" id="wa-clicks">—</p>
+          <p class="text-xs text-gray-400 mt-1">Leads potensial</p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-gray-400 text-sm">Halaman Populer</span>
+            <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center text-purple-600">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            </div>
+          </div>
+          <p class="text-3xl font-bold text-gray-900" id="top-page">—</p>
+          <p class="text-xs text-gray-400 mt-1">Paling sering dikunjungi</p>
+        </div>
+      </div>
+
+      <!-- Info Box -->
+      <div class="bg-blue-50 border border-blue-100 rounded-2xl p-6">
+        <div class="flex gap-4">
+          <div class="flex-shrink-0">
+            <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-blue-900 mb-1">Cara Melihat Data Lengkap</h3>
+            <p class="text-blue-700 text-sm">
+              Data statistik website Anda disimpan secara aman di database. Untuk melihat laporan lengkap dan analisis mendalam, hubungi tim support kami melalui WhatsApp.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Back to Admin -->
+      <div class="text-center mt-10">
+        <a href="/keystatic" class="inline-flex items-center gap-2 text-primary font-medium hover:underline">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+          Kembali ke Admin Panel
+        </a>
+      </div>
+
+    </div>
+  </main>
+</BaseLayout>
+
+<script>
+  // This would fetch real data from Supabase in production
+  // For now, showing placeholder text
+  document.getElementById('total-visitors')!.textContent = 'Memuat...';
+  document.getElementById('wa-clicks')!.textContent = 'Memuat...';
+  document.getElementById('top-page')!.textContent = 'Beranda';
+</script>

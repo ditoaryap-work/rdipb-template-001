@@ -1,0 +1,60 @@
+---
+import Section from '../ui/Section.astro';
+import Button from '../ui/Button.astro';
+import { siteConfig } from '../../config/site.config';
+---
+
+<Section id="promo" background="dark" class="relative overflow-hidden">
+  <!-- Decorative Elements -->
+  <div class="absolute top-0 right-0 w-64 h-64 bg-accent/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+  <div class="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+
+  <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+    <div class="space-y-6">
+      <span class="inline-block py-1 px-3 rounded-full bg-accent text-white text-sm font-bold tracking-wide">
+        Promo Terbatas Bulan Ini
+      </span>
+      <h2 class="text-4xl md:text-6xl font-serif font-bold leading-tight">
+        Miliki Rumah Impian <br/>
+        <span class="text-accent">Tanpa DP Besar.</span>
+      </h2>
+      <p class="text-slate-300 text-lg max-w-xl">
+        Dapatkan penawaran spesial <strong>Free BPHTB, AJB, dan Canopy</strong> untuk 5 pembeli pertama bulan ini. Diskon tambahan hingga 50 Juta Rupiah.
+      </p>
+      
+      <div class="flex flex-col sm:flex-row gap-4 pt-4">
+        <Button href={`https://wa.me/${siteConfig.contact.whatsapp}?text=Halo,%20saya%20tertarik%20dengan%20promo%20bulan%20ini.`} size="lg" variant="accent" isExternal>
+          Klaim Promo via WhatsApp
+        </Button>
+      </div>
+      
+      <p class="text-sm text-slate-500 italic">*Syarat & ketentuan berlaku. Slot terbatas.</p>
+    </div>
+
+    <!-- Simple Lead Form -->
+    <div class="bg-white text-slate-900 p-8 rounded-3xl shadow-2xl">
+      <h3 class="text-2xl font-bold mb-6">Minta Penawaran Spesial</h3>
+      <form class="space-y-4" onsubmit="event.preventDefault(); window.location.href=`https://wa.me/${siteConfig.contact.whatsapp}?text=Halo admin, saya ingin tanya promo.`">
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">Nama Lengkap</label>
+          <input type="text" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-accent focus:border-accent transition-all" placeholder="Masukkan nama Anda" required />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">Nomor WhatsApp</label>
+          <input type="tel" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-accent focus:border-accent transition-all" placeholder="0812..." required />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">Tipe Unit Diminati</label>
+          <select class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-accent focus:border-accent transition-all">
+            <option>Type 36/60 (Scandi)</option>
+            <option>Type 45/72 (Modern)</option>
+            <option>Type 60/84 (Luxury)</option>
+          </select>
+        </div>
+        <Button type="submit" variant="primary" class="w-full">
+          Kirim Pesan
+        </Button>
+      </form>
+    </div>
+  </div>
+</Section>

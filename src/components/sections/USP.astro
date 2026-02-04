@@ -1,0 +1,72 @@
+---
+import Section from '../ui/Section.astro';
+
+const benefits = [
+  {
+    title: "Eco Green Living",
+    description: "60% area terbuka hijau dengan taman tropis di setiap sudut cluster.",
+    icon: "🌱",
+    class: "md:col-span-2 bg-slate-50"
+  },
+  {
+    title: "Smart Home System",
+    description: "Kontrol rumah Anda dari genggaman smartphone.",
+    icon: "📱",
+    class: "md:col-span-1 bg-slate-900 text-white"
+  },
+  {
+    title: "24/7 Security",
+    description: "CCTV & One Gate System dengan keamanan berlapis.",
+    icon: "🛡️",
+    class: "md:col-span-1 bg-white border border-slate-200"
+  },
+  {
+    title: "Premium Location",
+    description: "Dikelilingi pusat perbelanjaan, sekolah internasional, dan akses tol.",
+    icon: "📍",
+    class: "md:col-span-2 bg-accent text-white"
+  }
+];
+---
+
+<Section id="about" background="white">
+  <div class="mb-16 max-w-2xl">
+    <span class="text-accent font-medium tracking-wide text-sm uppercase">Kenapa Memilih Kami?</span>
+    <h2 class="text-3xl md:text-5xl font-serif font-bold text-slate-900 mt-4 leading-tight">
+      Lebih dari Sekadar Hunian, <br/> Ini Gaya Hidup Masa Depan.
+    </h2>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    {benefits.map((benefit, index) => (
+      <div class={`p-8 rounded-3xl transition-transform hover:-translate-y-2 duration-300 ${benefit.class} usp-card opacity-0 translate-y-8`}>
+        <div class="text-4xl mb-6">{benefit.icon}</div>
+        <h3 class="text-2xl font-bold font-serif mb-3">{benefit.title}</h3>
+        <p class={`text-lg leading-relaxed ${benefit.class.includes('text-white') ? 'text-white/80' : 'text-slate-600'}`}>
+          {benefit.description}
+        </p>
+      </div>
+    ))}
+  </div>
+</Section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.addEventListener('DOMContentLoaded', () => {
+    gsap.to('.usp-card', {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      stagger: 0.1,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '#about',
+        start: 'top 80%',
+      }
+    });
+  });
+</script>

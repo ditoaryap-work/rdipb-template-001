@@ -1,0 +1,116 @@
+---
+import { getContent, getCollection } from '../../lib/content';
+
+// Dynamic Header
+const sectionData = getContent('sections/testimonials') || {
+  sectionTitle: "Cerita Keluarga Bahagia", 
+  sectionSubtitle: "Dengarkan pengalaman mereka yang telah menemukan hunian impian.",
+  badge: "Kata Mereka"
+};
+
+interface Testimonial {
+  name: string;
+  review: string;
+  rating: number;
+  photo?: string;
+  role?: string;
+}
+
+const rawTestimonials = getCollection<Testimonial>('testimonials');
+const testimonials = rawTestimonials.map(data => ({
+  name: data.name ? data.name.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) : 'Klien',
+  review: data.review || '',
+  rating: data.rating || 5,
+  photo: data.photo,
+}));
+
+// Default photo if none provided
+const defaultPhoto = 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop';
+---
+
+<section id="testimonials" class="py-24 bg-surface overflow-hidden relative">
+  <!-- Background Decor -->
+  <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+    <div class="absolute -top-20 -left-20 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 w-80 h-80 bg-accent/5 rounded-full blur-3xl"></div>
+  </div>
+
+  <div class="container-custom relative z-10">
+    <div class="text-center mb-16">
+      <span class="text-primary font-bold text-sm tracking-widest uppercase mb-2 block">{sectionData.badge}</span>
+      <h2 class="section-title">{sectionData.sectionTitle}</h2>
+      <p class="section-subtitle">
+        {sectionData.sectionSubtitle}
+      </p>
+    </div>
+
+    <!-- Swiper -->
+    <div class="swiper testimonial-swiper pb-16 px-4 -mx-4 md:px-8 md:-mx-8">
+      <div class="swiper-wrapper">
+        {testimonials.length > 0 ? (
+          testimonials.map((t) => (
+            <div class="swiper-slide h-auto">
+              <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 mx-4 h-full flex flex-col relative group hover:shadow-lg transition-all duration-300">
+                <div class="absolute top-6 right-8 text-primary/10 group-hover:text-primary/20 transition-colors">
+                  <svg class="w-16 h-16 fill-current" viewBox="0 0 24 24"><path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 8.44772 14.017 9V11C14.017 11.5523 13.5693 12 13.017 12H12.017V5H22.017V15C22.017 18.3137 19.3307 21 16.017 21H14.017ZM5.0166 21L5.0166 18C5.0166 16.8954 5.91203 16 7.0166 16H10.0166C10.5689 16 11.0166 15.5523 11.0166 15V9C11.0166 8.44772 10.5689 8 10.0166 8H6.0166C5.46432 8 5.0166 8.44772 5.0166 9V11C5.0166 11.5523 4.56889 12 4.0166 12H3.0166V5H13.0166V15C13.0166 18.3137 10.3303 21 7.0166 21H5.0166Z"/></svg>
+                </div>
+                
+                <div class="flex items-center gap-4 mb-6">
+                  <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-primary/20">
+                    <img src={t.photo || defaultPhoto} alt={t.name} class="w-full h-full object-cover" />
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-gray-900">{t.name}</h4>
+                    <p class="text-xs text-emerald-600 font-semibold bg-emerald-50 px-2 py-0.5 rounded-full inline-block mt-1">Verified Buyer</p>
+                  </div>
+                </div>
+
+                <div class="flex gap-0.5 text-yellow-400 mb-4">
+                  {[...Array(t.rating)].map(() => (
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                  ))}
+                </div>
+                
+                <p class="text-gray-600 leading-relaxed text-sm italic relative z-10">
+                  "{t.review}"
+                </p>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div class="swiper-slide">
+            <p class="text-center text-gray-400">Belum ada testimoni. Tambahkan melalui Admin Panel.</p>
+          </div>
+        )}
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import Swiper from 'swiper/bundle';
+  import 'swiper/css/bundle';
+  
+  new Swiper('.testimonial-swiper', {
+    loop: true,
+    autoplay: {
+      delay: 5000,
+      disableOnInteraction: false,
+    },
+    slidesPerView: 1,
+    spaceBetween: 30,
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    breakpoints: {
+      768: {
+        slidesPerView: 2,
+      },
+      1024: {
+        slidesPerView: 3,
+      },
+    },
+  });
+</script>
