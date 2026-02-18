@@ -5,7 +5,9 @@ import SEOHead from '../components/seo/SEOHead.astro';
 import Navbar from '../components/common/Navbar.astro';
 import Footer from '../components/common/Footer.astro';
 import FloatingWhatsApp from '../components/common/FloatingWhatsApp.astro';
-import SpeedInsights from '@vercel/speed-insights/astro';
+
+import  SpeedInsights  from "@vercel/speed-insights/astro"
+main
 
 interface Props {
   title?: string;
@@ -44,9 +46,6 @@ const { title, description } = Astro.props;
       
       // Track Page View on Load
       trackPageView();
-      
-      // Optional: Add listeners for future View Transitions support
-      // document.addEventListener('astro:page-load', trackPageView);
     </script>
     <SpeedInsights />
   </body>
